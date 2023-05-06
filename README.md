@@ -29,7 +29,7 @@ create a project of django by:
 ```
 django-admin startproject apiproject(project name)
 ```
-#### cd apiproject
+```cd apiproject```
  ```
 python3 manage.py migrate
  ```
