@@ -201,6 +201,7 @@ Done. search in browser or Thender client of vs code in GET req: http://127.0.0.
 
 
 ### How to fix cors issue in django and vue side:
+
 Django side:
 a. ```pip install django-cors-headers```
 b. In settings.py of root app:
@@ -255,6 +256,7 @@ CORS_ALLOW_HEADERS = [
 It will fix the cors issues for connecting django-vue/react/angular.
 
 #### In vue side:
+
 Enable CORS in your Vue app:
 Another way to fix CORS issues is to enable CORS in your Vue app. You can do this by adding the axios.defaults.withCredentials = true line to your Vue app's main.js file. This will enable cookies to be sent in CORS requests made by Axios.
 
@@ -274,7 +276,7 @@ new Vue({
 }).$mount('#app')
 ```
 ### API View decorator:
-We will work only in views.py in myapp
+We will work only in views.py in myapp deleting previous api code of myapp-> views.py
 ```
 from django.shortcuts import render
 
