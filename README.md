@@ -214,3 +214,75 @@ def api_detail(request, pk):
 ]
 ```
 Done. search in browser or Thender client of vs code in GET req: http://127.0.0.1:8000/apidetails/1/
+
+
+### How to fix cors issue in django and vue side:
+Django side:
+a. ```pip install django-cors-headers```
+b. In settings.py of root app:
+``` INSTALLED_APPS = [
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'myapp',
+    'vueapp',
+    'corsheaders',
+]
+```
+c. ```
+MIDDLEWARE = [
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+]
+```
+d. And add the following :
+```
+CORS_ALLOWED_ORIGINS = [
+    "hhttp://localhost:3000",
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+```
+It will fix the cors issues for connecting django-vue/react/angular.
+#### In vue side:
+Enable CORS in your Vue app:
+Another way to fix CORS issues is to enable CORS in your Vue app. You can do this by adding the axios.defaults.withCredentials = true line to your Vue app's main.js file. This will enable cookies to be sent in CORS requests made by Axios.
+```
+// main.js
+
+import Vue from 'vue'
+import App from './App.vue'
+import axios from 'axios'
+
+Vue.config.productionTip = false
+
+axios.defaults.withCredentials = true
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
+```
