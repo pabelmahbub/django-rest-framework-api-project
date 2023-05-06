@@ -336,3 +336,89 @@ def api_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
  ```
  Now we can check http://127.0.0.1:8000/myapi/ and http://127.0.0.1:8000/apidetails/1
+ 
+ #### Creating view by mixing and genric view(Most convenient), Need to fix in views.py and urls.py of myapp where root is apiproject:
+ In views.py
+ ```
+ from django.shortcuts import render
+
+# Create your views here.
+
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from myapp.models import Contact
+from myapp.serializers import ContactSerializer
+
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from django.http import Http404
+from rest_framework.views import APIView
+
+from rest_framework import mixins
+from rest_framework import generics
+```
+And:
+```
+class ContactList(generics.ListCreateAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+
+    def get(self, request):
+        return self.list(request)
+    
+    def post(self, request):
+        return self.create(request)
+ ```
+ ```
+ class ContactDetail(generics.RetrieveUpdateDestroyAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+    
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+```
+and In urls.py:
+```
+from django.urls import path
+from myapp import views
+
+urlpatterns = [
+     path('huhu/', views.ContactList.as_view()),
+     path('myDetail/<int:pk>/', views.ContactDetail.as_view()),
+]
+```
+Done.
+serializers.py file looks like:
+```
+from rest_framework import serializers
+from myapp.models import Contact
+
+
+
+class ContactSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+    title = serializers.CharField(max_length=200)
+    email = serializers.EmailField(max_length=30)
+    
+    
+    def create(self, validated_data):
+        return Contact.objects.create(**validated_data)
+    
+    
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.title = validated_data.get('title', instance.title)
+        instance.email = validated_data.get('email', instance.email)
+       
+        return instance
+ ```       
+ 
