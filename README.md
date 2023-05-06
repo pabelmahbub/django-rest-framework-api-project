@@ -40,3 +40,6 @@ create a superuser:
 ```
 python3 manage.py createsuperuser(name,email,password) and app will start in 127.0.0.0/admijn
 ```
+```
+python3 manage.py runserver
+```
