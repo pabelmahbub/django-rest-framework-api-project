@@ -337,7 +337,8 @@ def api_detail(request, pk):
  ```
  Now we can check http://127.0.0.1:8000/myapi/ and http://127.0.0.1:8000/apidetails/1
  
- #### Creating view by mixing and genric view(Most convenient), Need to fix in views.py and urls.py of myapp where root is apiproject:
+ ## Creating view by mixing and genric view(Most convenient)
+ * Need to fix in views.py and urls.py of myapp where root is apiproject:
  In views.py
  ```
  from django.shortcuts import render
