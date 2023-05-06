@@ -34,7 +34,7 @@ django-admin startproject apiproject(project name)
 python3 manage.py migrate
  ```
 ```
-python3 mange.py startapp myapp(app name)
+python3 manage.py startapp myapp(app name)
 ```
 create a superuser: 
 ```
