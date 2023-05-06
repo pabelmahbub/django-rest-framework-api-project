@@ -337,9 +337,9 @@ def api_detail(request, pk):
  ```
  Now we can check http://127.0.0.1:8000/myapi/ and http://127.0.0.1:8000/apidetails/1
  
- ## Creating view by mixing and genric view(Most convenient)
+ ## Creating view by mixins and genric view(Most convenient) Whole app develop:
  * Need to fix in views.py and urls.py of myapp where root is apiproject:
- In views.py
+ 1) In views.py
  ```
  from django.shortcuts import render
 
@@ -387,7 +387,7 @@ class ContactList(generics.ListCreateAPIView, mixins.ListModelMixin, mixins.Crea
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 ```
-and In urls.py:
+2) and In urls.py:
 ```
 from django.urls import path
 from myapp import views
@@ -398,7 +398,7 @@ urlpatterns = [
 ]
 ```
 Done.
-serializers.py file looks like:
+3) serializers.py file looks like:
 ```
 from rest_framework import serializers
 from myapp.models import Contact
@@ -421,5 +421,17 @@ class ContactSerializer(serializers.Serializer):
         instance.email = validated_data.get('email', instance.email)
        
         return instance
- ```       
+ ```
+4) In root app urls.py
+ ```
+from django.contrib import admin
+from django.urls import path, include 
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('myapp.urls')),
+]
+```
+5) Add in settings as above in root app.
+
  
