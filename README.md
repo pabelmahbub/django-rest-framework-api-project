@@ -1,54 +1,36 @@
-# api-project
+### django-rest-framework
 
 django rest framework porject:
-create a folder in pc: Here it is 
-```
-django-rest-framework
-```
-open in vs code in terminal and create a virtual env: 
-```
-python3 -m venv drenv(venv name)
-```
+create a folder in pc: ```django-rest-framework```
+
+open in vs code in terminal and create a virtual env: ```python3 -m venv drenv(drenv is our venv name)```
+
 Now activate venv in terminal by, 
-```
-source drenv/bin/activate(mac)
-```
-for windows: 
-```
-drenv/Scripts/activate
-```
-Need to install django in venv: 
-```
-pip install django
-```
-If pip upgrading needed: 
-```
-pip install --upgrade pip
-```
-create a project of django by: 
-```
-django-admin startproject apiproject(project name)
-```
+```source drenv/bin/activate(for mac)```
+```drenv/Scripts/activate (for windows)```
+
+Need to install django in venv: ```pip install django```
+
+If pip upgrading needed: ```pip install --upgrade pip```
+
+create a project of django by: ```django-admin startproject apiproject(our root app name)```
+
 ```cd apiproject```
- ```
-python3 manage.py migrate
- ```
-```
-python3 manage.py startapp myapp(app name)
-```
-create a superuser: 
-```
-python3 manage.py createsuperuser(name,email,password) and app will start in 127.0.0.0/admijn
-```
-```
-python3 manage.py runserver
-```
-Now create a model inside out myapp:
-a. In root app (apiproject) in settings: add in INSTALLED_APP= ['myapp','rest_framework']
-b. in models.py of myapp create a model:
-```
-from django.db import models
-```
+
+```python3 manage.py migrate```
+
+```python3 manage.py startapp myapp(app name)```
+
+create a superuser: ```python3 manage.py createsuperuser(name,email,password) and app will start in 127.0.0.0/admijn```
+
+```python3 manage.py runserver```
+
+#### Creating a model: Now create a model inside myapp:
+
+a. In root app (apiproject) in settings: add in ```INSTALLED_APP= ['myapp','rest_framework']```
+
+b. in models.py of myapp create a model:```from django.db import models```
+
 ```
 # Create your models here.
 
@@ -75,7 +57,9 @@ k)python3 manage.py migrate
 l) python3 manage.py runserver
 ```
 Now we can add items in Model through admin url.
+
 #### To add some data using serializers: 
+
 (https://www.django-rest-framework.org/tutorial/1-serialization/#writing-regular-django-views-using-our-serializer):
 We created model but it is needed to show in JSON data and serializer will do it for us.
 Step 1. inside myapp create a file named setializers.py and add these lines of code:
