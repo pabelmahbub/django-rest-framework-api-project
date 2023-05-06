@@ -180,3 +180,37 @@ urlpatterns = [
 ```
 Done. ```http://127.0.0.1:8000/myapi/```. We get the JSON data
         
+To get dynamic api value: 
+Paste the following code in views.py of myapp:
+```
+@csrf_exempt
+def api_detail(request, pk):
+    try:
+        detailVar = Contact.objects.get(pk=pk)
+    except Contact.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = ContactSerializer(detailVar)
+        return JsonResponse(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = ContactSerializer(detailVar, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        detailVar.delete()
+        return HttpResponse(status=204)    
+  ```
+  And add the following url in urls.py in myapp:
+  ```
+  urlpatterns = [
+    path('myapi/', views.api_list),
+    path('apidetails/<int:pk>/', views.api_detail),
+]
+```
+Done. search in browser or Thender client of vs code in GET req: http://127.0.0.1:8000/apidetails/1/
