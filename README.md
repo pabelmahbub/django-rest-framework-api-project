@@ -421,6 +421,16 @@ class ContactSerializer(serializers.Serializer):
         instance.email = validated_data.get('email', instance.email)
        
         return instance
+        
+  OR,
+
+from rest_framework import serializers
+from myapp.models import Contact
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ['name','title','email']
  ```
 4) In root app urls.py
  ```
