@@ -1,0 +1,102 @@
+
+[
+  {
+    "id": 1,
+    "name": "Pizza",
+    "food_type": "italian",
+    "country": "Italy",
+    "district": "Lazio"
+  },
+  {
+    "id": 2,
+    "name": "Sushi",
+    "food_type": "japanese",
+    "country": "Japan",
+    "district": "Tokyo"
+  }
+]
+
+Update your src/App.vue to import the JSON data and use Vue Select fields for food type, country, and district:
+<template>
+  <div id="app">
+    <h1>Filter data based on properties</h1>
+    <div>
+      <h3>Select Food Type</h3>
+      <vue-select
+        :options="uniqueFoodTypes"
+        v-model="selectedFoodType"
+        :reduce="(item) => item"
+        label="item"
+      ></vue-select>
+    </div>
+    <div>
+      <h3>Select Country</h3>
+      <vue-select
+        :options="uniqueCountries"
+        v-model="selectedCountry"
+        :reduce="(item) => item"
+        label="item"
+      ></vue-select>
+    </div>
+    <div>
+      <h3>Select District</h3>
+      <vue-select
+        :options="uniqueDistricts"
+        v-model="selectedDistrict"
+        :reduce="(item) => item"
+        label="item"
+      ></vue-select>
+    </div>
+    
+    <div>
+      <h3>Results</h3>
+      <ul>
+        <li v-for="item in filteredData" :key="item.id">
+          {{ item.name }} ({{ item.food_type }}) - {{ item.country }}/{{ item.district }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+import { ref, computed } from "vue";
+import menuData from "./menu-data.json";
+
+export default {
+  setup() {
+    const selectedFoodType = ref("");
+    const selectedCountry = ref("");
+    const selectedDistrict = ref("");
+
+    const uniqueFoodTypes = computed(() => {
+      return [...new Set(menuData.map((item) => item.food_type))];
+    });
+
+    const uniqueCountries = computed(() => {
+      return [...new Set(menuData.map((item) => item.country))];
+    });
+
+    const uniqueDistricts = computed(() => {
+      return [...new Set(menuData.map((item) => item.district))];
+    });
+
+    const filteredData = computed(() => {
+      return menuData
+        .filter((item) => (selectedFoodType.value ? item.food_type === selectedFoodType.value : true))
+        .filter((item) => (selectedCountry.value ? item.country === selectedCountry.value : true))
+        .filter((item) => (selectedDistrict.value ? item.district === selectedDistrict.value : true));
+    });
+
+    return {
+      selectedFoodType,
+      selectedCountry,
+      selectedDistrict,
+      uniqueFoodTypes,
+      uniqueCountries,
+      uniqueDistricts,
+      filteredData,
+    };
+  },
+};
+</script>
