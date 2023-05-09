@@ -1,0 +1,51 @@
+how to connect oracle enterprize with django rest framework
+                
+            
+Icon
+To connect Oracle Enterprise Database with Django REST Framework, follow these steps:
+
+Step 1: Ensure the necessary packages are installed Ensure Django and Django REST Framework are installed, and also install the Oracle Database adapter cx_Oracle.
+
+
+pip install Django djangorestframework cx_Oracle
+
+Step 2: Update Django settings In your Django project's settings.py file, update the INSTALLED_APPS section by adding Django REST Framework:
+
+
+# settings.py
+
+INSTALLED_APPS = [
+    ...
+    'rest_framework',
+]
+
+Specify your Oracle Enterprise Database connection details in the DATABASES section:
+
+
+# settings.py
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'database_name',
+        'USER': 'username',
+        'PASSWORD': 'password',
+        'HOST': 'hostname',
+        'PORT': 'port',
+
+        # You may need to add the following properties for Oracle Enterprise Databases
+        'OPTIONS': {
+            'threaded': True,
+        },
+    },
+}
+
+Replace 'database_name', 'username', 'password', 'hostname', and 'port' with your actual Oracle Enterprise Database values.
+
+Step 3: Create Models, Serializers, and Views Follow the same pattern as shown in the previous answer to create a Django Model, Serializer, and View for your application.
+
+Step 4: Configure Django URL Routing Configure the Django URL routing to serve your REST API endpoint as shown in the previous answer.
+
+Step 5: Fetch data in your frontend application In your frontend application (Vue, React, Angular or any other JS framework), use fetch or axios to retrieve data from your Django REST Framework API.
+
+These steps should connect your Oracle Enterprise Database with Django REST Framework. For further actions like adding, updating, or deleting data, you can customize your Django REST Framework endpoints and views accordingly.
